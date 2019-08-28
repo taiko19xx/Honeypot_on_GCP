@@ -1,0 +1,11 @@
+/opt/wowhoneypot/log/access_log {
+    ifempty
+    copytruncate
+    dateext
+    missingok
+    daily
+    rotate 7
+    postrotate
+        systemctl restart wowhoneypot
+    endscript
+}

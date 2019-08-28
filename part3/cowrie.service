@@ -1,0 +1,15 @@
+[Unit]
+Description=Cowrie SSH and Telnet Honeypot
+After=network.target
+
+[Service]
+Type=simple
+User=cowrie
+Group=cowrie
+Environment=PYTHONPATH=/opt/cowrie/src
+ExecStart=/usr/bin/authbind --deep /opt/cowrie/cowrie-env/bin/python /opt/cowrie/cowrie-env/bin/twistd --umask=0022 --pidfile= --nodaemon --logger cowrie.python.logfile.logger cowrie
+WorkingDirectory=/opt/cowrie
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

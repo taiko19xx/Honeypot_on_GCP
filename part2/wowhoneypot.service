@@ -1,0 +1,13 @@
+[Unit]
+Description=WOWHoneypot HTTP Honeypot
+After=network.target
+
+[Service]
+Type=simple
+User=wowhoneypot
+ExecStart=/usr/bin/authbind --deep /usr/bin/python3 ./wowhoneypot.py
+WorkingDirectory=/opt/wowhoneypot
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
