@@ -5,7 +5,7 @@
 書籍は次の場所で販売中（販売していました）です。
 
 * 技術書典7
-* BOOTH（）
+* BOOTH（ https://morinomiyakono.booth.pm/items/1561748 ）
 
 ## 構造
 各フォルダと章の対応表は次のとおりです。
