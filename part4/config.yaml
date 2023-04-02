@@ -1,0 +1,52 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# <== Enter custom agent configurations in this file.
+# See https://cloud.google.com/stackdriver/docs/solutions/agents/ops-agent/configuration
+# for more details.
+#
+logging:
+  receivers:
+    wowhoneypot-access:
+      type: files
+      include_paths:
+      - /opt/wowhoneypot/log/access_log
+    cowrie-access:
+      type: files
+      include_paths:
+      - /opt/cowrie/var/log/cowrie/cowrie.json
+  service:
+    pipelines:
+      default_pipeline:
+        receivers: []
+      wow_pipeline:
+        receivers: [wowhoneypot-access]
+        processors: [wow_parse]
+      cowrie_pipeline:
+        receivers: [cowrie-access]
+        processors: [cowrie_parse]
+  processors:
+    wow_parse:
+      type: parse_regex
+
+      regex: "^\[(?<time>[^\]]*)\] (?<clientip>[^ ]*) (?<hostname>[^ ]*) \"(?<method>\S+)(?: +(?<path>[^ ]*) +\S*)?\" (?<status>[^ ]*) (?<mrrid>[^ ]*) (?<requestbody>[^ ]*)$"
+
+      time_key:    time
+      time_format: "%Y-%m-%d %H:%M:%S%z"
+    cowrie_parse:
+      type: parse_json
+
+      time_key:    time
+      time_format: "%Y-%m-%dT%H:%M:%S.%N%Z"
+
